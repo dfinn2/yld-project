@@ -11,9 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-      },
+              },
       fontFamily: {
-        serif: ['"Noto Serif"', 'serif'],
+        serif: ['Geist', 'Tahoma', 'Verdana', 'sans-serif'],
       },
     },
   },
