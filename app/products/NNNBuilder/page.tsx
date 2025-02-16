@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "../../components/Navbar"; // Adjust the import path as necessary
-import ReactModal from 'react-modal';
-import NNNDocument from './NNNDocument';
+import ReactModal from "react-modal";
+import NNNDocument from "./NNNDocument";
 
 interface FormData {
   businessType: string;
@@ -16,9 +16,11 @@ interface FormData {
   skus: string;
   manufacturerNameEnglish: string;
   manufacturerNameChinese: string;
+  manufacturerRegistrationNumber: string; // added new field
   companyCheckOption: string;
   chineseTrademark: string;
   trademarkOption: string;
+  manufacturerAddress: string; // Added new field
 }
 
 interface Product {
@@ -39,6 +41,7 @@ export default function NNNBuilder() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showUSCCWarning, setShowUSCCWarning] = useState(false);
 
   // Watch the form fields to update the preview dynamically.
   const businessType = watch("businessType", "");
@@ -50,8 +53,13 @@ export default function NNNBuilder() {
   const skus = watch("skus", "");
   const manufacturerNameEnglish = watch("manufacturerNameEnglish", "");
   const manufacturerNameChinese = watch("manufacturerNameChinese", "");
+  const manufacturerRegistrationNumber = watch(
+    "manufacturerRegistrationNumber",
+    ""
+  ); // watch new field
   const chineseTrademark = watch("chineseTrademark", "");
   const trademarkOption = watch("trademarkOption", "");
+  const manufacturerAddress = watch("manufacturerAddress", ""); // Add to watched fields
 
   // Determine if the form is complete (all required fields are filled)
   const isComplete =
@@ -127,8 +135,8 @@ export default function NNNBuilder() {
     setShowHintModal(false);
   };
 
-  // Handle Manufacturer Name (Chinese) field blur
-  const handleManufacturerNameChineseBlur = () => {
+  // Handle Manufacturer Name (Chinese) no
+  const handleManufacturerNameChinese = () => {
     if (!manufacturerNameChinese) {
       setShowAccordion(true);
       setError("manufacturerNameChinese", {
@@ -145,6 +153,7 @@ export default function NNNBuilder() {
   const handleChineseTrademarkChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    const value = e.target.value;
     setShowTrademarkAccordion(e.target.value === "no");
   };
 
@@ -177,30 +186,63 @@ export default function NNNBuilder() {
     setIsLightboxOpen(false);
   };
 
+  // Validation function for Unified Social Credit Code (USCC)
+  const validateUSCC = (uscc: string) => {
+    const usccPattern = /^[0-9A-Z]{18}$/; // 18 alphanumeric (uppercase only)
+    if (!usccPattern.test(uscc)) {
+      return "Invalid Unified Social Credit Code format. It must be 18 uppercase letters and digits.";
+    }
+    return "Valid USCC number.";
+  };
+
+  // Handle USCC input blur event to validate the field
+  const handleManufacturerRegistrationNumberCheck = (
+    e: React.FocusEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    const result = validateUSCC(value);
+    setShowUSCCWarning(result !== "Valid USCC number.");
+  };
+
   return (
     <div className="min-h-screen p-6 bg-slate-50">
       <Navbar />
       <h1 className="text-4xl font-bold text-center mb-8 mt-10">NNN Builder</h1>
       <div className="flex flex-col md:flex-row gap-8">
         {/* Left Column: Explanation and Reactive Form */}
-        <div className="w-full md:w-1/2 bg-white p-6 rounded-lg shadow ">
+        <div className="informationalPanel w-full md:w-1/2 bg-white p-6 rounded-lg shadow ">
           {!showForm ? (
             <div className="mb-4 ">
-              <h2 className="text-2xl font-semibold mb-4">What is an NNN Agreement?</h2>
+              <h2 className="text-2xl font-semibold mb-4">
+                What is an NNN Agreement?
+              </h2>
               <p className="text-gray-700 mb-4">
-                An NNN Agreement (Non-Disclosure, Non-Use, Non-Circumvention) is a legal contract that helps protect your intellectual property when working with manufacturers in China. It ensures that your business secrets are not disclosed, used, or bypassed by the manufacturer.
+                An NNN Agreement (Non-Disclosure, Non-Use, Non-Circumvention) is
+                a legal contract that helps protect your intellectual property
+                when working with manufacturers in China. It ensures that your
+                business secrets are not disclosed, used, or bypassed by the
+                manufacturer.
               </p>
               <div className="flex flex-col md:flex-row justify-left items-center space-y-4 md:space-y-0 md:space-x-4 mt-1">
-              <span className="relative flex size-3">  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[--highlightBlue] opacity-75"></span>  <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span></span>
-              <button
-                onClick={() => setShowForm(true)}
-                className="inline-block border border-black shadow-[4px_4px_0_0_black] font-semibold py-3 px-6 rounded-md hover:bg-[var(--highlightYellow)] hover:text-black transition"
-              >        start building NNN
-              </button>
-            </div>
+                <span className="relative flex size-3">
+                  {" "}
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[--highlightBlue] opacity-75"></span>{" "}
+                  <span className="relative inline-flex size-3 rounded-full bg-sky-500"></span>
+                </span>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="inline-block border border-black shadow-[4px_4px_0_0_black] font-semibold py-3 px-6 rounded-md hover:bg-[var(--highlightYellow)] hover:text-black transition"
+                >
+                  {" "}
+                  start building NNN
+                </button>
+              </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-in">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="formPanel animate-fade-in"
+            >
               <div className="mb-4">
                 <div className="flex items-center justify-between">
                   <label
@@ -210,7 +252,7 @@ export default function NNNBuilder() {
                     Your Business Name
                   </label>
                   <div
-                    className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
+                    className="text-md font-bold text-white bg-slate-800 rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[--highlightBlue]"
                     onClick={() =>
                       openHintModal("Hint: Enter your business name.")
                     }
@@ -247,7 +289,7 @@ export default function NNNBuilder() {
                     Your Business Address
                   </label>
                   <div
-                    className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
+                    className="text-md font-bold text-white bg-slate-800 rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[--highlightBlue]"
                     onClick={() =>
                       openHintModal(
                         "Hint: This can be left blank, but it is best to enter these details."
@@ -275,7 +317,7 @@ export default function NNNBuilder() {
                     Email
                   </label>
                   <div
-                    className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
+                    className="text-md font-bold text-white bg-slate-800 rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[--highlightBlue]"
                     onClick={() =>
                       openHintModal("Hint: Enter your email address.")
                     }
@@ -291,113 +333,193 @@ export default function NNNBuilder() {
                   className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
                 />
               </div>
-
               <div className="mb-4">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="manufacturerNameEnglish"
-                    className="block text-sm font-medium text-darkText"
-                  >
-                    Manufacturer Name (English)
-                  </label>
-                  <div
-                    className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
-                    onClick={() =>
-                      openHintModal(
-                        "Hint: Enter the manufacturer name in English."
-                      )
-                    }
-                  >
-                    ?
-                  </div>
-                </div>
-                <input
-                  id="manufacturerNameEnglish"
-                  type="text"
-                  {...register("manufacturerNameEnglish", { required: true })}
-                  placeholder="Enter manufacturer name in English"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
-                />
-              </div>
-
-              <div className="mb-4">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="manufacturerNameChinese"
-                    className="block text-sm font-medium text-darkText"
-                  >
-                    Manufacturer Name (Chinese)
-                  </label>
-                  <div
-                    className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
-                    onClick={() =>
-                      openHintModal(
-                        "Hint: Enter the manufacturer name in Chinese."
-                      )
-                    }
-                  >
-                    ?
-                  </div>
-                </div>
-                <input
-                  id="manufacturerNameChinese"
-                  type="text"
-                  {...register("manufacturerNameChinese", { required: true })}
-                  placeholder="Enter manufacturer name in Chinese"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
-                  onBlur={handleManufacturerNameChineseBlur}
-                />
-              </div>
-
-              {showAccordion && (
-                <div className="mt-2 p-4 border border-gray-300 rounded bg-[#FAFF03] bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]">
-                  <p>
-                    Many Chinese companies use English names to make life easier
-                    for customers, be sure that you have requested and checked
-                    your manufacturer's company registration certificate to
-                    confirm their true Chinese business name.{" "}
-                    <span>learn more</span>
-                  </p>
-                  <div className="mt-2">
-                    <label className="inline-flex items-center pl-4">
-                      <input
-                        type="radio"
-                        {...register("manufacturerNameChinese")}
-                        value="check"
-                        defaultChecked
-                        onClick={() => {
-                          setValue("manufacturerNameChinese", "check");
-                        }}
-                      />
-                      <span
-                        className={`ml-2 ${
-                          manufacturerNameChinese === "check" ? "font-bold" : ""
-                        }`}
-                      >
-                        +$19 get a company check
-                      </span>
+                <hr className="my-4" />
+                <h3 className="text-lg font-medium text-darkText">
+                  Details about your Manufcaturer
+                </h3>
+                <div className="mb-4">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="manufacturerNameEnglish"
+                      className="block text-sm font-medium text-darkText"
+                    >
+                      Manufacturer Name (English)
                     </label>
-                    <label className="inline-flex items-center pl-4">
-                      <input
-                        type="radio"
-                        {...register("manufacturerNameChinese")}
-                        value="later"
-                        onClick={() => {
-                          setValue("manufacturerNameChinese", "later");
-                        }}
-                      />
-                      <span
-                        className={`ml-2 ${
-                          manufacturerNameChinese === "later" ? "font-bold" : ""
-                        }`}
-                      >
-                        I will enter these details later before signing
-                      </span>
-                    </label>
+                    <div
+                      className="text-md font-bold text-white bg-slate-800 rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[--highlightBlue]"
+                      onClick={() =>
+                        openHintModal(
+                          "Hint: Enter the manufacturer name in English."
+                        )
+                      }
+                    >
+                      ?
+                    </div>
                   </div>
+                  <input
+                    id="manufacturerNameEnglish"
+                    type="text"
+                    {...register("manufacturerNameEnglish", { required: true })}
+                    placeholder="Enter manufacturer name in English"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
+                  />
                 </div>
-              )}
 
+                <div className="mb-4">
+                  <div className="flex justify-between items-center">
+                    <label
+                      htmlFor="manufacturerNameChinese"
+                      className="text-sm font-medium text-darkText"
+                    >
+                      Manufacturer Name (Chinese)
+                    </label>
+                    <div className="flex items-center">
+                      <span className="text-xs text-red-500 mr-2">
+                        How do I find this{" "}
+                      </span>
+                      <div
+                        className="text-md font-bold text-white bg-slate-800 rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[--highlightBlue]"
+                        onClick={() =>
+                          openHintModal(
+                            "Hint: Enter the manufacturer name in Chinese."
+                          )
+                        }
+                      >
+                        ?
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    id="manufacturerNameChinese"
+                    type="text"
+                    {...register("manufacturerNameChinese", {
+                      required: true,
+                      onBlur: handleManufacturerNameChinese,
+                    })}
+                    placeholder="Enter manufacturer name in Chinese"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="manufacturerAddress"
+                      className="block text-sm font-medium text-darkText"
+                    >
+                      Manufacturer Address
+                    </label>
+                    <div
+                      className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
+                      onClick={() =>
+                        openHintModal(
+                          "Hint: Enter the manufacturer's registered business address"
+                        )
+                      }
+                    >
+                      ?
+                    </div>
+                  </div>
+                  <input
+                    id="manufacturerAddress"
+                    type="text"
+                    {...register("manufacturerAddress")}
+                    placeholder="Enter manufacturer's address"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
+                  />
+                </div>
+
+                {/* New field: Manufacturer's Registration Number */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="manufacturerRegistrationNumber"
+                      className="block text-sm font-medium text-darkText"
+                    >
+                      Manufacturer's Registration Number
+                    </label>
+                    <div
+                      className="text-sm text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer hover:bg-[#FAFF03]"
+                      onClick={() =>
+                        openHintModal(
+                          "Hint: Enter the registration number provided by the manufacturer."
+                        )
+                      }
+                    >
+                      ?
+                    </div>
+                  </div>
+                  <input
+                    id="manufacturerRegistrationNumber"
+                    type="text"
+                    {...register("manufacturerRegistrationNumber", {
+                      required: true,
+                      onBlur: handleManufacturerRegistrationNumberCheck,
+                    })}
+                    placeholder="Enter manufacturer's registration number"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]"
+                  />
+                  {showUSCCWarning && (
+                    <div className="mt-2 p-2 bg-yellow-200 border border-yellow-400 rounded">
+                      Warning Invalids USCC
+                    </div>
+                  )}
+                </div>
+
+                {showAccordion && (
+                  <div className="mt-2 p-4 border border-gray-300 rounded bg-[#FAFF03] bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]">
+                    <p>
+                      Many Chinese companies use English names to make life
+                      easier for customers, be sure that you have requested and
+                      checked your manufacturer's company registration
+                      certificate to confirm their true Chinese business name.{" "}
+                      <span>learn more</span>
+                    </p>
+                    <div className="mt-2">
+                      <label className="inline-flex items-center pl-4">
+                        <input
+                          type="radio"
+                          {...register("manufacturerNameChinese")}
+                          value="check"
+                          defaultChecked
+                          onClick={() => {
+                            setValue("manufacturerNameChinese", "check");
+                          }}
+                        />
+                        <span
+                          className={`ml-2 ${
+                            manufacturerNameChinese === "check"
+                              ? "font-bold"
+                              : ""
+                          }`}
+                        >
+                          +$19 get a company check
+                        </span>
+                      </label>
+                      <label className="inline-flex items-center pl-4">
+                        <input
+                          type="radio"
+                          {...register("manufacturerNameChinese")}
+                          value="later"
+                          onClick={() => {
+                            setValue("manufacturerNameChinese", "later");
+                          }}
+                        />
+                        <span
+                          className={`ml-2 ${
+                            manufacturerNameChinese === "later"
+                              ? "font-bold"
+                              : ""
+                          }`}
+                        >
+                          I will enter these details later before signing
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className="mb-4">
                 <hr className="my-4" />
                 <h3 className="text-lg font-medium text-darkText">
@@ -471,8 +593,8 @@ export default function NNNBuilder() {
 
               <div className="mb-4 mt-2 p-4 border border-gray-300 rounded bg-[#FAFF03] bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-[#1ce4ff]">
                 <label className="block text-sm font-medium text-darkText">
-                  Have you applied for a Chinese Trademark for protection of your
-                  brand?
+                  Have you applied for a Chinese Trademark for protection of
+                  your brand?
                 </label>
                 <div className="mt-2">
                   <label className="inline-flex items-left">
@@ -489,10 +611,10 @@ export default function NNNBuilder() {
                   <label className="inline-flex items-left">
                     <input
                       type="radio"
-                      {...register("chineseTrademark")}
-                      value="no"
-                      onClick={handleChineseTrademarkChange}
-                    />
+                        {...register("chineseTrademark")}
+                        value="no"
+                        onChange={handleChineseTrademarkChange}
+                      />
                     <span className="ml-2">
                       No, I haven't applied for a Chinese trademark.
                     </span>
@@ -557,16 +679,25 @@ export default function NNNBuilder() {
         </div>
 
         {/* Right Column: Document Template Preview  - add blur or overlay to document frame*/}
-        <div id="document-preview-wrapper" className={`document-preview-wrapper w-full md:w-1/2 ${!showForm ? 'bg-black' : ''}`}>
+        <div
+          id="document-preview-wrapper"
+          className={`document-preview-wrapper w-full md:w-1/2 ${
+            !showForm ? "bg-black" : ""
+          }`}
+        >
           <NNNDocument
             businessName={businessName}
             businessAddress={businessAddress}
+            manufacturerNameChinese={manufacturerNameChinese}
+            manufacturerNameEnglish={manufacturerNameEnglish}
+            manufacturerRegistrationNumber={manufacturerRegistrationNumber} // passing new field
+            manufacturerAddress={manufacturerAddress} // Added new prop
             email={email}
             product={product}
             productNameOrTrademark={productNameOrTrademark}
             skus={skus}
           />
-          
+
           <div className="flex flex-row justify-center mt-4 gap-4">
             {isComplete && (
               <button
@@ -594,11 +725,10 @@ export default function NNNBuilder() {
         overlayClassName="fixed inset-0 bg-black bg-opacity-50"
         ariaHideApp={false}
       >
-        <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 h-3/4 overflow-y-auto">
+        <div className="bg-white p-4 rounded-lg shadow-lg w-3/4 h-3/4 overflow-y-auto">
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 bg-red-600 text-white py-3 px-5 rounded hover:bg-red-700 transition"
-            
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-black bg-opacity-80 border border-black text-white py-4 px-20 rounded-md hover:bg-red-600 hover:bg-opacity-90 hover:text-white transition z-55"
           >
             Close Preview
           </button>
@@ -609,6 +739,10 @@ export default function NNNBuilder() {
             product={product}
             productNameOrTrademark={productNameOrTrademark}
             skus={skus}
+            manufacturerNameChinese={manufacturerNameChinese}
+            manufacturerNameEnglish={manufacturerNameEnglish}
+            manufacturerAddress={manufacturerAddress}
+            manufacturerRegistrationNumber={manufacturerRegistrationNumber}
           />
         </div>
       </ReactModal>
@@ -641,7 +775,7 @@ export default function NNNBuilder() {
         .document-preview-page:last-child {
           page-break-after: auto;
         }
-/* Add fade-in animation for form button*/
+        /* Add fade-in animation for form button*/
         .animate-fade-in {
           animation: fadeIn 0.5s ease-in-out;
         }

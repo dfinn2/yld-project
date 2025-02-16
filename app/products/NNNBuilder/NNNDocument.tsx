@@ -4,23 +4,27 @@ import { useForm } from "react-hook-form";
 interface NNNDocumentProps {
   businessName: string;
   businessAddress: string;
+  manufacturerAddress: string; // Added new prop
   email: string;
   product: string;
   productNameOrTrademark: string;
   skus: string;
   manufacturerNameChinese: string;
   manufacturerNameEnglish: string;
+  manufacturerRegistrationNumber: string;
 }
 
 const NNNDocument: React.FC<NNNDocumentProps> = ({
   businessName,
   businessAddress,
+  manufacturerAddress, // Added new prop
   email,
   product,
   productNameOrTrademark,
   skus,
   manufacturerNameChinese,
   manufacturerNameEnglish,
+  manufacturerRegistrationNumber,
 }) => {
   const { handleSubmit, watch } = useForm();
 
@@ -92,7 +96,7 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             <span>[Effective Date~生效日期]</span>签订：
           </p>
           <div id="particularsWrapper" className="pl-4 pr-4">
-            <table className="border-collapse w-full">
+            <table className="border-collapse w-full text-sm">
               <tbody>
                 <tr>
                   <td className="border border-black p-2 w-1/3">
@@ -104,16 +108,21 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
                     <span className="uppercase font-extrabold">
                       {businessName || "Your Business Name"}
                     </span>
-                    <p>
-                      , a [Jurisdiction] corporation with its principal office
-                      located at [Address] (“Disclosing Party”)
-                    </p>
-                    <p>
-                      <span>{businessName || "Your Business Name"}</span>
-                      ，一家依照[法域]法律成立且其主要营业地点位于[地址]；
-                    </p>
+                    
                   </td>
                 </tr>
+                <tr>
+                  <td className="border border-black p-2 w-1/3">
+                    <p>Disclosing Party Address:</p>
+                    <p>披露方地址：</p>
+                  </td>
+                  <td className="border border-black p-2 w-full">
+                    <span className="uppercase">
+                      {businessAddress || "[Your Business Address]"}
+                    </span>
+                  </td>
+                </tr>
+                
                 <tr>
                   <td className="border border-black p-2 w-1/3">
                     <p> Receiving Party: </p>
@@ -122,44 +131,59 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
                   <td className="border border-black p-2 w-full">
                     {" "}
                     <span className="uppercase font-extrabold  bg-yellow-100">
-                      {manufacturerNameEnglish || "Manufacturer Name"} 
-                    </span><br></br>
+                      {manufacturerNameEnglish || "Manufacturer Name"}
+                    </span>
+                    <br></br>
                     <span className="uppercase font-extrabold bg-yellow-100">
                       {manufacturerNameChinese || "[Manufacturer Chinese Name]"}
-                      </span>
-                    <p>
-                      , a [Jurisdiction] corporation with its principal office located at [Address]
-                      (“Receiving Party”)
-                    </p>
-                    <p>
-                      <span>{businessName || "Your Business Name"}</span>
-                      ，一家依照[法域]法律成立且其主要营业地点位于[地址]。
-                    </p>
+                    </span>
+                    
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-2 w-1/3">
+                    <p>Receiving Party Address:</p>
+                    <p>接收方地址：</p>
+                  </td>
+                  <td className="border border-black p-2 w-full">
+                    <span className="uppercase bg-yellow-100">
+                      {manufacturerAddress || "[Manufacturer Address]"}
+                    </span>
                   </td>
                 </tr>
 
                 <tr>
-                  
+                  <td className="border border-black p-2 w-1/3">
+                    <p>Registration Number: </p>
+                    <p>统一社会信用代码: </p>
+                  </td>
+                  <td className="border border-black p-2 w-full">
+                    {" "}
+                    <span className="uppercase font-extrabold  bg-yellow-100">
+                      {manufacturerRegistrationNumber || "Manufacturer Registration Number"}
+                    </span>
+                    <br></br>
+                    
+                  </td>
+                </tr>
+                
+                <tr>
                   <td className="border border-black p-2">
-                    <p>
-                      
-                    </p>
+                    <p></p>
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-black p-2">
-                   
-                  </td>
+                  <td className="border border-black p-2"></td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div id="helpNote" className="p-3 m-6 bg-slate-200 font-mono">
-            Note: For enforcement in China, the Chinese version of this Agreement
-            shall be used for purposes of interpretation and execution by Chinese
-            courts. This is done in line with best practice and should not be
-            changed without legal advice. You can read more about this topic in
-            our <a href="#learn">Knowledge Base</a>
+          <div id="helpNote" className="p-3 m-6 bg-red-100 font-mono text-xs">
+            Note: For enforcement in China, the Chinese version of this
+            Agreement shall be used for purposes of interpretation and execution
+            by Chinese courts. This is done in line with best practice and
+            should not be changed without legal advice. You can read more about
+            this topic in our <a href="#learn">Knowledge Base</a>
           </div>
           <div id="DefinitionsNNN" className="">
             <p>
@@ -171,8 +195,10 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               <span className="font-semibold"></span>
             </p>
             <p className="pl-4">
-              <span className="font-semibold">“Confidential Information”</span>{" "} means all information—whether oral, written, graphic, or 
-              electronic—disclosed by the Disclosing Party to the Receiving Party which is designated as confidential or which, under the
+              <span className="font-semibold">“Confidential Information”</span>{" "}
+              means all information—whether oral, written, graphic, or
+              electronic—disclosed by the Disclosing Party to the Receiving
+              Party which is designated as confidential or which, under the
               circumstances, ought to be treated as confidential. This includes,
               without limitation, technical data, trade secrets, know‑how,
               business plans, customer data, pricing, product images, designs,
@@ -188,8 +214,8 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             </p>
             <p className="pl-4">
               <span className="font-semibold">“Purpose”</span> means the
-              evaluation and potential establishment of a business relationship or
-              transaction between the parties.
+              evaluation and potential establishment of a business relationship
+              or transaction between the parties.
             </p>
             <p className="pl-4 mb-3">
               <span className="font-semibold">“目的”</span>{" "}
@@ -205,8 +231,8 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               指接收方仅为实现“目的”而使用保密信息，不得用于其他任何用途的义务。
             </p>
             <p className="pl-4">
-              <span className="font-semibold">“Non‑Circumvention”</span> means the
-              obligation of the Receiving Party not to bypass or otherwise
+              <span className="font-semibold">“Non‑Circumvention”</span> means
+              the obligation of the Receiving Party not to bypass or otherwise
               undermine the interests of the Disclosing Party regarding any
               business opportunity or transaction disclosed, whether directly or
               indirectly.
@@ -227,8 +253,8 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             </p>
             <p className="pl-4">
               <span className="font-semibold">“Group Companies”</span> means any
-              entity that directly or indirectly controls, is controlled by, or is
-              under common control with a party, including subsidiaries,
+              entity that directly or indirectly controls, is controlled by, or
+              is under common control with a party, including subsidiaries,
               affiliates, parent companies, and other related companies.
             </p>
             <p className="pl-4 mb-3">
@@ -253,23 +279,30 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
                 2. Confidentiality Obligations / 保密义务
               </span>
             </p>
-            <p className="pl-4 mb-2">
+            <div className="pl-4 mb-2">
               The Receiving Party, including its Group Companies, shall:
-             <p className="pl-4">(i) maintain the confidentiality of all Confidential Information;</p>
-             <p className="pl-4">(ii) not disclose, publish, or disseminate any Confidential
-              Information to any third party without the prior written consent of
-              the Disclosing Party; and </p>
-              <p className="pl-4">(iii) protect the Confidential Information
-              with no less than the degree of care it uses to protect its own
-              confidential information (and in no event less than a reasonable
-              standard of care).</p>
-            </p>
-            <p className="pl-4">
-              接收方及其集团或关联公司应当： 
+              <p className="pl-4">
+                (i) maintain the confidentiality of all Confidential
+                Information;
+              </p>
+              <p className="pl-4">
+                (ii) not disclose, publish, or disseminate any Confidential
+                Information to any third party without the prior written consent
+                of the Disclosing Party; and{" "}
+              </p>
+              <p className="pl-4">
+                (iii) protect the Confidential Information with no less than the
+                degree of care it uses to protect its own confidential
+                information (and in no event less than a reasonable standard of
+                care).
+              </p>
+            </div>
+            
+            <p>   接收方及其集团或关联公司应当：</p>
               <p className="pl-4">(i) 对所有保密信息严格保密；</p>
               <p className="pl-4">(ii) 未经披露方事先书面同意，不得向任何第三方披露、发布或传播保密信息；</p>
               <p className="pl-4">(iii) 采取不少于其保护自身保密信息所使用的措施（且无论如何不得低于合理注意标准）来保护保密信息。</p>
-            </p>
+            
           </div>
           <div id="NonUse" className="">
             <p>
@@ -278,9 +311,9 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             <p className="pl-4 blur-sm">
               English: The Receiving Party agrees that it shall use the
               Confidential Information solely for the Purpose. The Confidential
-              Information remains the exclusive property of the Disclosing Party,
-              and nothing in this Agreement shall be construed as granting any
-              license or other rights to the Receiving Party.
+              Information remains the exclusive property of the Disclosing
+              Party, and nothing in this Agreement shall be construed as
+              granting any license or other rights to the Receiving Party.
             </p>
             <p className="pl-4 blur-sm">
               中文：
@@ -299,8 +332,8 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               respect to any business opportunity or transaction disclosed,
               whether directly or indirectly. The Receiving Party further agrees
               not to initiate or conduct any negotiations or enter into any
-              agreements with any party introduced by the Disclosing Party without
-              the Disclosing Party’s prior written consent.
+              agreements with any party introduced by the Disclosing Party
+              without the Disclosing Party’s prior written consent.
             </p>
             <p className="pl-4 blur-sm">
               中文：
@@ -325,15 +358,15 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             <p className="pl-4">
               (b) The Parties may elect one of the following penalty damages
               formulas (please initial the chosen option): Option A – Fixed
-              Amount:  For each breach, the Receiving Party shall pay a fixed sum
-              of RMB [insert fixed amount]. Option B – Percentage of Contract
-              Value:  For each breach, the Receiving Party shall pay penalty
-              damages equal to [insert percentage, e.g., 5%] of the total value of
-              the affected transaction or contract. Option C – Multiple of Actual
-              Loss:  For each breach, the Receiving Party shall pay an amount
-              equal to [insert multiplier, e.g., “2×”] the actual loss incurred by
-              the Disclosing Party, as reasonably determined in accordance with
-              applicable Chinese law.
+              Amount:  For each breach, the Receiving Party shall pay a fixed
+              sum of RMB [insert fixed amount]. Option B – Percentage of
+              Contract Value:  For each breach, the Receiving Party shall pay
+              penalty damages equal to [insert percentage, e.g., 5%] of the
+              total value of the affected transaction or contract. Option C –
+              Multiple of Actual Loss:  For each breach, the Receiving Party
+              shall pay an amount equal to [insert multiplier, e.g., “2×”] the
+              actual loss incurred by the Disclosing Party, as reasonably
+              determined in accordance with applicable Chinese law.
             </p>
             <p className="pl-4">
               (c) The Parties acknowledge that the amounts specified represent a
@@ -347,8 +380,9 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             </p>
             <p className="pl-4">
               (b) 双方可选择下列违约金计算方式之一（请在所选方案旁签字确认）：
-              方案 A – 固定金额：  每次违约时，接收方应向披露方支付固定金额人民币
-              [填写具体金额]。 方案 B – 合同金额百分比：
+              方案 A – 固定金额：
+               每次违约时，接收方应向披露方支付固定金额人民币 [填写具体金额]。
+              方案 B – 合同金额百分比：
                每次违约时，接收方应支付违约金，金额相当于受违约影响的交易或合同总金额的
               [填写百分比，例如5%]。 方案 C – 实际损失倍数：
                每次违约时，接收方应支付的违约金为披露方因违约而实际遭受损失的
@@ -366,19 +400,21 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: (a) Upon termination of this Agreement or upon the written
-              request of the Disclosing Party, the Receiving Party shall, at the
-              Disclosing Party’s expense and direction, immediately return all
-              molds and related materials containing Confidential Information.
+              English: (a) Upon termination of this Agreement or upon the
+              written request of the Disclosing Party, the Receiving Party
+              shall, at the Disclosing Party’s expense and direction,
+              immediately return all molds and related materials containing
+              Confidential Information.
             </p>
             <p className="pl-4">
-              (b) If the return of such molds is not feasible, the Receiving Party
-              shall, following the Disclosing Party’s instructions, destroy such
-              molds and certify in writing within [number] days that destruction
-              has been completed.
+              (b) If the return of such molds is not feasible, the Receiving
+              Party shall, following the Disclosing Party’s instructions,
+              destroy such molds and certify in writing within [number] days
+              that destruction has been completed.
             </p>
             <p className="pl-4">
-              (c) This obligation shall survive the termination of this Agreement.
+              (c) This obligation shall survive the termination of this
+              Agreement.
             </p>
             <p className="pl-4">
               中文： (a)
@@ -401,9 +437,9 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               English: This Agreement shall be binding upon and benefit the
               parties and their respective Group Companies. The Receiving Party
               shall ensure that all such Group Companies are aware of and comply
-              with the confidentiality, non‑use, and non‑circumvention obligations
-              contained herein. Any breach by a Group Company shall be deemed a
-              breach by the Receiving Party.
+              with the confidentiality, non‑use, and non‑circumvention
+              obligations contained herein. Any breach by a Group Company shall
+              be deemed a breach by the Receiving Party.
             </p>
             <p className="pl-4">
               中文：
@@ -417,21 +453,22 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              (a) This Agreement shall commence on the Effective Date and
-              remain in effect for a period of [Term] years unless terminated
-              earlier by either party upon providing [Number] days’ prior written
-              notice.<br></br> (b) Notwithstanding termination, the obligations regarding
-              Confidential Information, Non‑Use, Non‑Circumvention, return and
-              destruction of molds, and payment of penalty damages shall survive
-              for [Duration] years from the date of termination.
-            </p>
-            <p className="pl-4">
+              (a) This Agreement shall commence on the Effective Date and remain
+              in effect for a period of [Term] years unless terminated earlier
+              by either party upon providing [Number] days’ prior written
+              notice.<br></br> 
               (a) 本协议自生效日起生效，并持续有效 [填写期限]
               年，除非任一方提前以书面形式通知对方（提前通知期限为 [填写天数]
-              天）而提前终止本协议。<br></br> (b)
+              天）而提前终止本协议。<br></br>
+              (b) Notwithstanding termination, the obligations
+              regarding Confidential Information, Non‑Use, Non‑Circumvention,
+              return and destruction of molds, and payment of penalty damages
+              shall survive for [Duration] years from the date of termination.<br></br>
+              (b)
               尽管本协议终止，关于保密、不得使用、不得规避、模具归还与销毁以及违约金支付的义务自终止之日起继续存续
               [填写期限] 年。
             </p>
+            
           </div>
           <div id="GoverningLawAndDisputeResolution" className="">
             <p>
@@ -441,19 +478,21 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
             </p>
             <p className="pl-4">
               (a) This Agreement shall be governed by and construed in
-              accordance with the laws of the People’s Republic of China. <br></br>(b) Any
-              dispute or claim arising out of or relating to this Agreement,
-              including its interpretation, performance, or breach, shall be
-              submitted to the competent People’s Court located in [City, e.g.,
-              Beijing or Shanghai] in the People’s Republic of China. <br></br>(c)
-              Notwithstanding any provision to the contrary, for any disputes
-              adjudicated in Chinese courts, the Chinese language version of this
-              Agreement shall prevail.
-            </p>
-            <p className="pl-4">
-              (a) 本协议受中华人民共和国法律管辖并依其解释。 <br></br>(b)
+              accordance with the laws of the People’s Republic of China.{" "}
+              <br></br>
+              (a) 本协议受中华人民共和国法律管辖并依其解释。 <br></br>
+              (b) Any dispute or claim arising out of or relating to
+              this Agreement, including its interpretation, performance, or
+              breach, shall be submitted to the competent People’s Court located
+              in [City, e.g., Beijing or Shanghai] in the People’s Republic of
+              China. <br></br>
+              (b)
               任何因本协议引起或与本协议有关的争议或索赔（包括其解释、履行或违反），均应提交中华人民共和国
-              [填写城市，例如北京或上海] 有管辖权的人民法院解决。 <br></br>(c)
+              [填写城市，例如北京或上海] 有管辖权的人民法院解决。 <br></br>
+              (c) Notwithstanding any provision to the contrary,
+              for any disputes adjudicated in Chinese courts, the Chinese
+              language version of this Agreement shall prevail.
+              (c)
               尽管本协议中有其他规定，凡由中国法院审理的争议，以本协议中文版本为准。
             </p>
           </div>
@@ -464,10 +503,11 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: This Agreement is executed in both English and Chinese. For
-              the purpose of interpretation and enforcement by Chinese courts, the
-              Chinese version shall be deemed the controlling language. However,
-              the English version is provided solely for convenience.
+              English: This Agreement is executed in both English and Chinese.
+              For the purpose of interpretation and enforcement by Chinese
+              courts, the Chinese version shall be deemed the controlling
+              language. However, the English version is provided solely for
+              convenience.
             </p>
             <p className="pl-4">
               中文：
@@ -481,24 +521,42 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: (a) The Receiving Party acknowledges that any breach of
-              this Agreement may cause irreparable harm to the Disclosing Party,
-              for which monetary damages may not be adequate. (b) In addition to
-              any other rights or remedies available under applicable law, the
-              Disclosing Party shall be entitled to seek injunctive relief,
-              specific performance, or any other equitable remedy to prevent or
-              curtail any breach or threatened breach of this Agreement. (c) The
-              right to recover penalty damages as provided in Section 5 is
-              cumulative and shall not preclude the Disclosing Party from pursuing
-              any other remedy available under applicable law.
+              <span>
+                (a) The Receiving Party acknowledges that any breach of this
+                Agreement may cause irreparable harm to the Disclosing Party,
+                for which monetary damages may not be adequate.
+              </span>
+              <br></br>
+              <span>
+                (b) In addition to any other rights or remedies available under
+                applicable law, the Disclosing Party shall be entitled to seek
+                injunctive relief, specific performance, or any other equitable
+                remedy to prevent or curtail any breach or threatened breach of
+                this Agreement.{" "}
+              </span>
+              <br></br>
+              <span>
+                (c) The right to recover penalty damages as provided in Section
+                5 is cumulative and shall not preclude the Disclosing Party from
+                pursuing any other remedy available under applicable law.
+              </span>
             </p>
             <p className="pl-4">
-              中文： (a)
-              接收方承认，违反本协议可能对披露方造成无法弥补的损害，而金钱赔偿可能不足以弥补该损害。
-              (b)
-              除适用法律规定的其他权利或救济外，披露方有权寻求禁令救济、特定履行或其他衡平法上的救济措施，以防止或制止任何违反或威胁违反本协议的行为。
-              (c)
-              根据第5条规定追讨违约金的权利具有累积性，不影响披露方依据适用法律寻求其他救济的权利。
+              <span>
+                (a)
+                接收方承认，违反本协议可能对披露方造成无法弥补的损害，而金钱赔偿可能不足以弥补该损害。
+              </span>
+              <br></br>
+              <span>
+                (b)
+                除适用法律规定的其他权利或救济外，披露方有权寻求禁令救济、特定履行或其他衡平法上的救济措施，以防止或制止任何违反或威胁违反本协议的行为。
+              </span>
+              <br></br>
+              <span>
+                (c)
+                根据第5条规定追讨违约金的权利具有累积性，不影响披露方依据适用法律寻求其他救济的权利。
+              </span>
+              <br></br>
             </p>
           </div>
           <div id="EntireAgreement" className="">
@@ -508,10 +566,10 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: This Agreement constitutes the entire agreement between the
-              parties with respect to its subject matter and supersedes all prior
-              or contemporaneous understandings, agreements, or communications,
-              whether written or oral.
+              English: This Agreement constitutes the entire agreement between
+              the parties with respect to its subject matter and supersedes all
+              prior or contemporaneous understandings, agreements, or
+              communications, whether written or oral.
             </p>
             <p className="pl-4">
               中文：
@@ -523,8 +581,8 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               <span className="font-semibold">13. Amendments / 修改</span>
             </p>
             <p className="pl-4">
-              English: Any amendment or modification of this Agreement must be in
-              writing and signed by duly authorized representatives of both
+              English: Any amendment or modification of this Agreement must be
+              in writing and signed by duly authorized representatives of both
               parties.
             </p>
             <p className="pl-4">
@@ -551,10 +609,10 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               <span className="font-semibold">15. Severability / 可分割性</span>
             </p>
             <p className="pl-4">
-              English: If any provision of this Agreement is held to be invalid or
-              unenforceable, such provision shall be reformed only to the extent
-              necessary to render it enforceable, and the remaining provisions
-              shall continue in full force and effect.
+              English: If any provision of this Agreement is held to be invalid
+              or unenforceable, such provision shall be reformed only to the
+              extent necessary to render it enforceable, and the remaining
+              provisions shall continue in full force and effect.
             </p>
             <p className="pl-4">
               中文：
@@ -570,20 +628,19 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: Upon termination of the Underlying Manufacturing
-              Relationship, the Receiving Party shall, at its own cost and without
-              undue delay, destroy all Confidential Information of the Disclosing
-              Party in its possession or control. This includes, without
-              limitation, product images, designs, files, documents, and any other
-              information that by its nature is confidential or proprietary to the
-              Disclosing Party. The Receiving Party shall provide written
+              Upon termination of the Underlying Manufacturing Relationship, the
+              Receiving Party shall, at its own cost and without undue delay,
+              destroy all Confidential Information of the Disclosing Party in
+              its possession or control. This includes, without limitation,
+              product images, designs, files, documents, and any other
+              information that by its nature is confidential or proprietary to
+              the Disclosing Party. The Receiving Party shall provide written
               certification to the Disclosing Party within [number] days of such
               termination confirming that all such Confidential Information has
               been destroyed and that no copies, excerpts, or reproductions
               thereof remain.
             </p>
             <p className="pl-4">
-              中文：
               在基础制造关系终止后，接收方应在自身费用承担下并在合理时间内销毁其所持有或控制的披露方所有保密信息，包括但不限于产品图片、设计、文件、资料及任何其他本质上对披露方具有保密性或专有性的资料。接收方应在终止后[填写天数]天内向披露方提供书面证明，确认所有此类保密信息已被销毁，且其控制或持有的任何复制件、摘录或复印件均已清除。
             </p>
           </div>
@@ -594,14 +651,14 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               </span>
             </p>
             <p className="pl-4">
-              English: The Receiving Party warrants and represents that any stamp,
-              seal, or mark affixed by the manufacturer or on behalf of the
-              manufacturer under this Agreement has been, or will be, affixed
-              solely by an individual duly authorized by the manufacturer to do
-              so. The Receiving Party further undertakes to indemnify and hold
-              harmless the Disclosing Party from and against any losses, damages,
-              or liabilities arising from any claim that such stamp was affixed by
-              a person lacking sufficient authority.
+              English: The Receiving Party warrants and represents that any
+              stamp, seal, or mark affixed by the manufacturer or on behalf of
+              the manufacturer under this Agreement has been, or will be,
+              affixed solely by an individual duly authorized by the
+              manufacturer to do so. The Receiving Party further undertakes to
+              indemnify and hold harmless the Disclosing Party from and against
+              any losses, damages, or liabilities arising from any claim that
+              such stamp was affixed by a person lacking sufficient authority.
             </p>
             <p className="pl-4">
               中文：
@@ -610,7 +667,9 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
           </div>
           <div id="signature-wrapper" className="">
             <p>
-              <span className="font-semibold">IN WITNESS WHEREOF / 签署证明</span>
+              <span className="font-semibold">
+                IN WITNESS WHEREOF / 签署证明
+              </span>
             </p>
             <p className="pl-4">
               English: In witness whereof, the parties have executed this
@@ -633,8 +692,10 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               Date: ___________________________ 日期：_________________________
             </p>
             <p className="pl-4">[RECEIVING PARTY NAME] / [接收方名称]</p>
-            <p className="pl-4"> (please sign and affix seal 请签署并加盖公司公章)
-              By: ___________________________ 签字：_________________________
+            <p className="pl-4">
+              {" "}
+              (please sign and affix seal 请签署并加盖公司公章) By:
+              ___________________________ 签字：_________________________
             </p>
             <p className="pl-4">
               Name: _________________________ 姓名：_________________________
@@ -646,13 +707,29 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
               Date: ___________________________ 日期：_________________________
             </p>
             <table className="border-collapse w-full">
+              <tbody>
               <tr>
-                <td className="border border-black p-2 w-2/3">  </td>
-                <td className="border border-black p-2 w-1/3"><img className="opacity-20" src="../images/stamp_spot.svg" alt="Stamp Spot" />  </td>
+                <td className="border border-black p-2 w-2/3"> </td>
+                <td className="border border-black p-2 w-1/3">
+                  <img
+                    className="opacity-20"
+                    src="../images/stamp_spot.svg"
+                    alt="Stamp Spot"
+                  />{" "}
+                </td>
               </tr>
+              </tbody>
             </table>
-            
           </div>
+          <p>
+            Manufacturer Name (English): {manufacturerNameEnglish}
+          </p>
+          <p>
+            Manufacturer Name (Chinese): {manufacturerNameChinese}
+          </p>
+          <p>
+            Manufacturer Registration Number: {manufacturerRegistrationNumber}
+          </p>
         </div>
       </div>
       <button type="submit">Buy Now</button>
