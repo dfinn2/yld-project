@@ -1,6 +1,8 @@
 // filepath: /c:/Users/Daniel/yld-project/app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { createCanvas, loadImage, Image }  from 'canvas';
+
 
 const prisma = new PrismaClient();
 

@@ -30,22 +30,22 @@ export default function HeroSection() {
           <h2 className="text-2xl font-semibold mb-4">Testimonials</h2>
           <Slider {...settings}>
             <div>
-              <p className="text-lg">"This service is amazing! It helped me protect my business in China effortlessly." - Happy Client</p>
+              <p className="text-lg">&quot;This service is amazing! It helped me protect my business in China effortlessly.&quot; - Happy Client</p>
             </div>
             <div>
-              <p className="text-lg">"Excellent service and support. Highly recommend!" - Satisfied Customer</p>
+              <p className="text-lg">&quot;Excellent service and support. Highly recommend!&quot; - Satisfied Customer</p>
             </div>
             <div>
-              <p className="text-lg">"Professional and efficient. Great experience!" - Business Owner</p>
+              <p className="text-lg">&quot;Professional and efficient. Great experience!&quot; - Business Owner</p>
             </div>
             <div>
-              <p className="text-lg">"Top-notch legal services for IP protection." - Entrepreneur</p>
+              <p className="text-lg">&quot;Top-notch legal services for IP protection.&quot; - Entrepreneur</p>
             </div>
             <div>
-              <p className="text-lg">"Reliable and trustworthy. Will use again." - Client</p>
+              <p className="text-lg">&quot;Reliable and trustworthy. Will use again.&quot; - Client</p>
             </div>
             <div>
-              <p className="text-lg">"Outstanding service and results." - Happy Client</p>
+              <p className="text-lg">&quot;Outstanding service and results.&quot; - Happy Client</p>
             </div>
           </Slider>
         </div>
