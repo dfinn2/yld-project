@@ -1,9 +1,13 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,49 +25,71 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return (
-    <nav
-      className={`sticky top-0 container mx-auto px-2 md:px-3 flex justify-between items-center z-50 transition-colors duration-300 
+    <nav className={`sticky top-0 container mx-auto px-2 md:px-3 flex justify-between items-center z-50 transition-colors duration-300 
       ${isScrolled ? 'bg-white' : 'bg-transparent'}`}
     >
-      <div className="text-xl font-bold ml-2">Your Company Name</div>
+      <div className="text-xl font-bold ml-2">Your Logo</div>
 
       {/* Main navigation links - hidden on small screens */}
       <ul className="hidden md:flex space-x-6 mx-auto">
         <li>
-          <a href="/" className="text-gray-800 hover:underline font-light">
+          <Link href="/" className="text-gray-800 hover:text-gray-600">
             Home
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#services" className="text-gray-800 hover:underline font-light">
+          <Link href="#services" className="text-gray-800 hover:text-gray-600">
             Services
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#contact" className="text-gray-800 hover:underline font-light">
+          <Link href="#contact" className="text-gray-800 hover:text-gray-600">
             Contact Us
-          </a>
+          </Link>
         </li>
         <li>
-          <Link href="/learn" legacyBehavior>
-            <a className="text-gray-800 hover:underline font-light">Learn</a>
+          <Link href="/learn" className="text-gray-800 hover:text-gray-600">
+            Learn
           </Link>
         </li>
       </ul>
 
       {/* Sign Up / Login buttons - hidden on small screens */}
       <div className="hidden md:flex space-x-4">
-        <Link href="#signup" legacyBehavior>
-          <a className="border border-black text-black py-1 px-2 rounded-md hover:bg-[#FAFF03] hover:text-black transition">
-            Sign Up
-          </a>
-        </Link>
-        <Link href="#login" legacyBehavior>
-          <a className="border border-black bg-black text-white py-1 px-2 rounded-md hover:bg-[#FAFF03] hover:text-black transition">
-            Login
-          </a>
-        </Link>
+        {user ? (
+          <>
+            <Link href="/dashboard" className="text-gray-800 hover:text-gray-600">
+              Dashboard
+            </Link>
+            <button
+              onClick={handleSignOut}
+              className="text-gray-800 hover:text-gray-600"
+            >
+              Sign Out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link href="/signin" className="text-gray-800 hover:text-gray-600">
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Hamburger button - only visible on small screens */}
@@ -108,20 +134,13 @@ const Navbar = () => {
               <li><Link href="/about" className="text-black hover:bg-[#FAFF03] block px-3 py-2 rounded-md text-base font-medium">
                 About
               </Link></li>
-              <li><Link href="/services" legacyBehavior>
-              <a className="text-black hover:bg-[#FAFF03] block px-3 py-2 rounded-md text-base font-medium">
+              <li><Link href="/services" className="text-black hover:bg-[#FAFF03] block px-3 py-2 rounded-md text-base font-medium">
                 Services
-              </a>
-            </Link></li>
-              <li><Link href="/contact" legacyBehavior>
-              <a className="text-black hover:bg-[#FAFF03] block px-3 py-2 rounded-md text-base font-medium">
+              </Link></li>
+              <li><Link href="/contact" className="text-black hover:bg-[#FAFF03] block px-3 py-2 rounded-md text-base font-medium">
                 Contact
-              </a>
-            </Link></li> 
+              </Link></li> 
             </ul>
-            
-            
-            
           </div>
         </div>
       )}

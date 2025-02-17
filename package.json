@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.3.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.48.1",
     "next": "15.1.6",
     "nodemailer": "^6.10.0",
     "puppeteer": "^24.2.1",

@@ -26,7 +26,7 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
   manufacturerNameEnglish,
   manufacturerRegistrationNumber,
 }) => {
-  const { handleSubmit, watch } = useForm();
+  const { handleSubmit } = useForm();
 
   const onSubmit = async (data: any) => {
     console.log("Form submitted:", data);
@@ -161,6 +161,11 @@ const NNNDocument: React.FC<NNNDocumentProps> = ({
                     {" "}
                     <span className="uppercase font-extrabold  bg-yellow-100">
                       {manufacturerRegistrationNumber || "Manufacturer Registration Number"}
+                      {email || "email"}
+                      {product || "product"}
+                      {productNameOrTrademark || "productNameOrTrademark"}
+                      {skus || "skus"}
+                      
                     </span>
                     <br></br>
                     
