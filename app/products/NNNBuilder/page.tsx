@@ -216,13 +216,11 @@ export default function NNNBuilder() {
               <h2 className="text-2xl font-semibold mb-4">
                 What is an NNN Agreement?
               </h2>
-              <p className="text-gray-700 mb-4">
-                An NNN Agreement (Non-Disclosure, Non-Use, Non-Circumvention) is
-                a legal contract that helps protect your intellectual property
-                when working with manufacturers in China. It ensures that your
-                business secrets are not disclosed, used, or bypassed by the
-                manufacturer.
-              </p>
+                         
+                <p className="text-gray-700 mb-4">
+                  An NNN Agreement (Non-Disclosure, Non-Use, Non-Circumvention) is a legal contract that helps protect your intellectual property when working with manufacturers in China. It ensures that your business secrets are not disclosed, used, or bypassed by the manufacturer.
+                </p>
+             
               <div className="flex flex-col md:flex-row justify-left items-center space-y-4 md:space-y-0 md:space-x-4 mt-1">
                 <span className="relative flex size-3">
                   {" "}

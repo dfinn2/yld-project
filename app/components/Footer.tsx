@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 
 export default function Footer() {
   return (
@@ -6,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
         {/* First Column: Address and Logo */}
         <div>
-          <Image src="/logo-placeholder.png" alt="Company Logo" className="mx-auto md:mx-0 mb-4" />
+          <img src="/logo-placeholder.png" alt="Company Logo" className="mx-auto md:mx-0 mb-4" />
           <address className="not-italic">
             <p>Your Company Name</p>
             <p>1234 Street Name</p>
